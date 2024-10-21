@@ -13,7 +13,6 @@ concurrency: deploy-client
 
 jobs:
   deploy-prod:
-    needs: deploy-staging
     name: Deploy production
     runs-on: ubuntu-20.04
     steps:
