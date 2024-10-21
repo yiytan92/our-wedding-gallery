@@ -1,7 +1,7 @@
 iam:
   role:
     managedPolicies:
-      - ${ssm:/our-wedding/${self:provider.stage}/apps/gallery/policy-arn}
+      - "arn:aws:iam::013814740402:policy/our-wedding-policy"
 
 plugins:
   - serverless-esbuild
@@ -16,10 +16,10 @@ custom:
     Application: Gallery
     Env: ${self:provider.stage}
 
-  uploadBucketName: 'wedding-gallery-upload'
-  photoBucketName: 'wedding-gallery-photos'
-  photoBucketPrefix: 'photo'
-  photoBucketPublicReadUrl: 'd3nkc77h3egb01.cloudfront.net'
-  photoTableName: 'photo-table'
-  host: 'https://16november2024.com/'
+  uploadBucketName: "wedding-gallery-upload"
+  photoBucketName: "wedding-gallery-photos"
+  photoBucketPrefix: "photo"
+  photoBucketPublicReadUrl: "d3nkc77h3egb01.cloudfront.net"
+  photoTableName: "photo-table"
+  host: "https://16november2024.com/"
   maxPhotosPerRequest: 50
