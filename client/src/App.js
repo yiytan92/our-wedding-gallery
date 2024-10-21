@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import LoadingBar from './component/LoadingBar';
 import PhotoUpload from './component/PhotoUpload';
 import PhotoGallery from './component/PhotoGallery';
-import logo from './logo.svg';
+import logo from './images/surnames.jpg';
 
 function App({ bootstrapUrl }) {
   const [bootstrap, setBootstrap] = useState(undefined);
@@ -20,7 +20,7 @@ function App({ bootstrapUrl }) {
   return (
     <>
       <div className="mt-10 mb-10 flex justify-center">
-        <img src={logo} alt="" />
+        <img src={logo} alt="" width="100%" height="400px" />
       </div>
       <div className="mt-10 mb-10 flex justify-center">
         {bootstrap?._links?.request && (
