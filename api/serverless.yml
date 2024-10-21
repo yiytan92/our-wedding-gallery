@@ -1,5 +1,5 @@
 service: our-wedding-gallery-api
-frameworkVersion: '3'
+frameworkVersion: '^3.35.2'
 
 provider:
   name: aws
