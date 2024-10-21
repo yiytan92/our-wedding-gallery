@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'client/**'
+      - "client/**"
       - Makefile
       - .github/workflows/deploy-client.yml
 
@@ -55,7 +55,7 @@ jobs:
       - name: Retrieve AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-region: eu-west-1
+          aws-region: ap-southeast-1
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
       - name: Deploy
