@@ -21,5 +21,5 @@ custom:
   photoBucketPrefix: "photo"
   photoBucketPublicReadUrl: "d3nkc77h3egb01.cloudfront.net"
   photoTableName: "photo-table"
-  host: "https://16november2024.com/"
+  host: "16november2024.com"
   maxPhotosPerRequest: 50
