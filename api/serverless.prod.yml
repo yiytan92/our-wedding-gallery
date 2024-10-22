@@ -19,7 +19,7 @@ custom:
   uploadBucketName: "wedding-gallery-upload"
   photoBucketName: "wedding-gallery-photos"
   photoBucketPrefix: "photo"
-  photoBucketPublicReadUrl: "https://wedding-gallery-photos.s3.ap-southeast-1.amazonaws.com/photo-bucket{path}"
+  photoBucketPublicReadUrl: "https://wedding-gallery-photos.s3.ap-southeast-1.amazonaws.com/{path}"
   photoTableName: "photo-table"
   host: "https://16november2024.com"
   maxPhotosPerRequest: 50
