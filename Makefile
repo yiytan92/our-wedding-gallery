@@ -55,7 +55,7 @@ client/deploy: _require_AWS_ACCESS_KEY_ID _require_AWS_SECRET_ACCESS_KEY _requir
 	  docker.io/amazon/aws-cli:2.4.6 ssm get-parameter --region=ap-southeast-1 --name /our-wedding/${STAGE}/apps/gallery/host --query Parameter.Value --output text) \
 	&& cd client \
 	&& yarn \
-	&& REACT_APP_API_BOOTSTRAP_URL=https://$${HOST}/api yarn build \
+	&& REACT_APP_API_BOOTSTRAP_URL=https://16november2024.com/api yarn build \
 	&& docker run --rm \
 	  -v $(PWD)/client/build:/build \
 	  -e AWS_ACCESS_KEY_ID \
