@@ -21,7 +21,7 @@ function App({ bootstrapUrl }) {
 
   return (
     <>
-      <div className="flex justify-center h-[400px]">
+      <div className="flex justify-center">
         <img src={logo} alt="" width="100%" />
       </div>
       <div className="flex justify-center">
