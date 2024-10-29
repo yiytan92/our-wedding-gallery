@@ -1,3 +1,79 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.button {
+  background-color: #b28b7e; /* A warm brownish color that pairs well with cream */
+  color: #FFFDF0; /* Text color matching the background */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: #a0796b; /* Slightly darker for hover effect */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Slightly deeper shadow */
+  transform: translateY(-2px); /* Lifts button on hover */
+}
+
+.button:active {
+  background-color: #8e695d; /* Even darker when clicked */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+  transform: translateY(0); /* Moves button back down */
+}
+
+.banner {
+  background-image: './images/banner.png';
+  background-size: cover;
+  height: 400px;
+  position: relative;
+  display: flex;
+
+
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 40%, #FFFDF0 100%);
+}
+
+.next-section {
+  background-color: #FFFDF0;
+  display: flex;
+  justify-content: center;
+  margin-top: -50px;
+  padding-top: 100px;
+}
+
+/* CSS for a title with a similar font style and mobile-friendly size */
+.title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px; /* Default size for mobile */
+  color: #b28b7e; /* Warm brown color similar to the text color in the image */
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* Larger screens will show the title slightly larger */
+@media (min-width: 768px) {
+  .title {
+      font-size: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .title {
+      font-size: 40px;
+  }
+}

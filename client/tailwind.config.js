@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         cadbury: '#482683',
+        lightcream: '#FFFDF0'
       },
     },
   },

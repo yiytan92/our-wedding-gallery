@@ -4,6 +4,8 @@ import PhotoUpload from './component/PhotoUpload';
 import PhotoGallery from './component/PhotoGallery';
 import logo from './images/surnames.jpg';
 import invitationCard from './images/invitation-card.jpg';
+import invitationBanner from './images/invitation-card-banner.jpg';
+import banner from './images/banner.png';
 
 
 function App({ bootstrapUrl }) {
@@ -20,13 +22,12 @@ function App({ bootstrapUrl }) {
   }
 
   return (
-    <>
-      <div className="flex justify-center">
-        <img src={logo} alt="" width="100%" />
+    <div className="bg-lightcream">
+      <div class='banner'>
+        <img src={banner} alt="" width="100%" />
       </div>
-      <div className="flex justify-center">
-        <img src={invitationCard} alt="" width="100%" />
-      </div>
+      <div class='next-section'>
+        <h1 class="title">Share your precious moments from the wedding day with us! </h1>      </div>
       <div className="flex justify-center">
         {bootstrap?._links?.request && (
           <PhotoUpload
@@ -39,7 +40,7 @@ function App({ bootstrapUrl }) {
         )}
       </div>
       {bootstrap?._links?.list && <PhotoGallery initialUrl={bootstrap._links.list.href} />}
-    </>
+    </div>
   );
 }
 
