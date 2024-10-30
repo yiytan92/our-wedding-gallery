@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import LoadingBar from './component/LoadingBar';
-import PhotoUpload from './component/PhotoUpload';
-import PhotoGallery from './component/PhotoGallery';
 import Navbar from './component/NavBar';
 import Schedule from './component/Schedule';
 import Home from './component/Home';
