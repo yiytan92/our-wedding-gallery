@@ -4,6 +4,7 @@ import Navbar from './component/NavBar';
 import Schedule from './component/Schedule';
 import Home from './component/Home';
 import InvitationCard from './component/InvitationCard';
+import Venue from './component/Venue';
 // import logo from './images/surnames.jpg';
 // import invitationCard from './images/invitation-card.jpg';
 // import invitationBanner from './images/invitation-card-banner.jpg';
@@ -38,6 +39,7 @@ function App({ bootstrapUrl }) {
           <Routes>
             <Route path="/" element={<Home bootstrapUrl={bootstrapUrl} />} />
             <Route path="/schedule" element={<Schedule />} />
+            <Route path="/venue" element={<Venue />} />
             <Route path="/invitation" element={<InvitationCard />} />
             {/* Other Routes */}
           </Routes>
