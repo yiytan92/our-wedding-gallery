@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import LoadingBar from './component/LoadingBar';
 import PhotoUpload from './component/PhotoUpload';
 import PhotoGallery from './component/PhotoGallery';
-import logo from './images/surnames.jpg';
-import invitationCard from './images/invitation-card.jpg';
-import invitationBanner from './images/invitation-card-banner.jpg';
+// import logo from './images/surnames.jpg';
+// import invitationCard from './images/invitation-card.jpg';
+// import invitationBanner from './images/invitation-card-banner.jpg';
 import banner from './images/banner.png';
 
 
