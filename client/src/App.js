@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react';
 import LoadingBar from './component/LoadingBar';
 import PhotoUpload from './component/PhotoUpload';
 import PhotoGallery from './component/PhotoGallery';
+import Navbar from './component/NavBar';
+import Schedule from './component/Schedule';
+import Home from './component/Home';
+import InvitationCard from './component/InvitationCard';
 // import logo from './images/surnames.jpg';
 // import invitationCard from './images/invitation-card.jpg';
 // import invitationBanner from './images/invitation-card-banner.jpg';
 import banner from './images/banner.png';
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App({ bootstrapUrl }) {
   const [bootstrap, setBootstrap] = useState(undefined);
@@ -22,24 +26,25 @@ function App({ bootstrapUrl }) {
   }
 
   return (
-    <div className="bg-lightcream">
-      <div class='banner'>
-        <img src={banner} alt="" width="100%" />
+    <div>
+      <div className="bg-lightcream">
+        <div class='banner'>
+          <img src={banner} alt="" width="100%" />
+        </div>
+        <div class='next-section'>
+          <h1 class="title">Share your precious moments from the wedding day with us! </h1>      </div>
       </div>
-      <div class='next-section'>
-        <h1 class="title">Share your precious moments from the wedding day with us! </h1>      </div>
-      <div className="flex justify-center">
-        {bootstrap?._links?.request && (
-          <PhotoUpload
-            url={bootstrap._links.request.href}
-            maxPhotosPerRequest={bootstrap.maxPhotosPerRequest}
-            onUpload={() => {
-              window.location.reload();
-            }}
-          />
-        )}
+      <div>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home bootstrapUrl={bootstrapUrl} />} />
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/invitation" element={<InvitationCard />} />
+            {/* Other Routes */}
+          </Routes>
+        </Router>
       </div>
-      {bootstrap?._links?.list && <PhotoGallery initialUrl={bootstrap._links.list.href} />}
     </div>
   );
 }

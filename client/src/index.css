@@ -30,10 +30,8 @@
 .banner {
   background-image: './images/banner.png';
   background-size: cover;
-  height: 400px;
   position: relative;
   display: flex;
-
 
 }
 
@@ -59,7 +57,7 @@
 .title {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 24px; /* Default size for mobile */
-  color: #b28b7e; /* Warm brown color similar to the text color in the image */
+  color: #ce9b3f; /* Warm brown color similar to the text color in the image */
   font-weight: bold;
   text-align: center;
   margin: 10px 0;
@@ -76,4 +74,57 @@
   .title {
       font-size: 40px;
   }
+}
+
+/* Navigation Bar */
+.navbar {
+  position: fixed;
+  bottom: 0;
+
+  background-color: #FFF8EC; /* Subtle, warm background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 15px 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  position: relative;
+}
+
+.navbar a {
+  font-family: 'Playfair Display', serif;
+  color: #ce9b3f;
+  font-size: 18px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #8a5e50;
+}
+
+/* Underline Hover Effect */
+.navbar a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #8a5e50;
+  left: 0;
+  bottom: -5px;
+  transition: width 0.3s ease;
+}
+
+.navbar a:hover::after {
+  width: 100%;
 }
