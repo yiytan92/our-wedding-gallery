@@ -152,3 +152,56 @@
   color: #8a5e50;
   font-weight: bold;
 }
+
+.paragraph {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #4b3832; /* Soft, warm brown */
+  line-height: 1.6;
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: center;
+  padding: 0 15px;
+}
+
+.paragraph::first-letter {
+  font-size: 24px;
+  font-weight: bold;
+  color: #8a5e50; /* Accentuated color */
+}
+
+.food-recommendations {
+  padding: 20px;
+  background-color: #FFF8EC;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 30px auto;
+  font-family: 'Playfair Display', serif;
+}
+
+.food-recommendations h2 {
+  color: #8a5e50;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.food-recommendations ul {
+  list-style: none;
+  padding: 0;
+}
+
+.food-recommendations li {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #4b3832;
+}
+
+.food-recommendations a {
+  color: #b28b7e;
+  text-decoration: none;
+}
+
+.food-recommendations a:hover {
+  color: #8a5e50;
+  text-decoration: underline;
+}
