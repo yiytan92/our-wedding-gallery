@@ -6,6 +6,7 @@
   background-color: #b28b7e; /* A warm brownish color that pairs well with cream */
   color: #FFFDF0; /* Text color matching the background */
   padding: 10px 20px;
+  margin-bottom: 20px;
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -80,7 +81,6 @@
 .navbar {
   position: fixed;
   bottom: 0;
-
   background-color: #FFFDF0; /* Subtle, warm background */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
   padding: 15px 0;
@@ -127,4 +127,28 @@
 
 .navbar a:hover::after {
   width: 100%;
+}
+
+#countdown {
+  background-color: #FFFDF0; /* Subtle background color */
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  margin: 0px auto;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Playfair Display', serif;
+}
+
+#countdown h2 {
+  color: #b28b7e;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+#timer {
+  font-size: 22px;
+  color: #8a5e50;
+  font-weight: bold;
 }

@@ -11,6 +11,27 @@ import Venue from './component/Venue';
 import banner from './images/banner.png';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+function countdown() {
+  const eventDate = new Date("November 16, 2024 19:00:00").getTime();
+  const now = new Date().getTime();
+  const distance = eventDate - now;
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("timer").innerHTML =
+    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+  if (distance < 0) {
+    clearInterval(countdownInterval);
+    document.getElementById("timer").innerHTML = "The big day is here!";
+  }
+}
+
+const countdownInterval = setInterval(countdown, 1000);
+
 function App({ bootstrapUrl }) {
   const [bootstrap, setBootstrap] = useState(undefined);
 
@@ -31,9 +52,14 @@ function App({ bootstrapUrl }) {
           <img src={banner} alt="" width="100%" />
         </div>
         <div class='next-section'>
-          <h1 class="title">Share your precious moments from the wedding day with us! </h1>      </div>
+          <h1 class="title">Share your precious moments from the wedding day with us! </h1>
+        </div>
+        <div id="countdown">
+          <h2>Countdown to the Big Day!</h2>
+          <p id="timer"></p>
+        </div>
       </div>
-      <div>
+      <div className="bg-lightcream">
         <Router>
           <Navbar />
           <Routes>
