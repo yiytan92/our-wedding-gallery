@@ -48,6 +48,7 @@ module.exports.handler = async event => {
         },
         photos: records.Items.map(record => ({
           id: record.PK.S,
+          sk: record.SK.S,
           thumbnail: toPublicReadUrl(record.thumbnail.S),
           web: toPublicReadUrl(record.web.S),
           original: toPublicReadUrl(record.original.S),

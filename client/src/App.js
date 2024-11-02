@@ -10,6 +10,7 @@ import Venue from './component/Venue';
 // import invitationBanner from './images/invitation-card-banner.jpg';
 import banner from './images/banner.png';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Admin from './component/Admin';
 
 function countdown() {
   const eventDate = new Date("November 16, 2024 19:00:00").getTime();
@@ -67,6 +68,7 @@ function App({ bootstrapUrl }) {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/venue" element={<Venue />} />
             <Route path="/invitation" element={<InvitationCard />} />
+            <Route path="/admin" element={<Admin bootstrapUrl={bootstrapUrl} />} />
             {/* Other Routes */}
           </Routes>
         </Router>

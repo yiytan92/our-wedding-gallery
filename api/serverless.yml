@@ -1,5 +1,5 @@
 service: our-wedding-gallery-api
-frameworkVersion: '^3.35.2'
+frameworkVersion: "^3.35.2"
 
 provider:
   name: aws
@@ -56,6 +56,16 @@ functions:
       - httpApi:
           path: /api/request
           method: post
+
+  delete-photos:
+    handler: handler/delete-photos.handler
+    environment:
+      PHOTO_TABLE_NAME: ${self:custom.photoTableName}
+      DYNAMODB_ENDPOINT: ${self:custom.dynamoDBEndpoint, null}
+    events:
+      - httpApi:
+          path: /api/delete/{id}
+          method: delete
 
   process-photo:
     handler: handler/process-photo.handler

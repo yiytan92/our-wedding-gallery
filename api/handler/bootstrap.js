@@ -12,6 +12,7 @@ module.exports.handler = async event => {
           self: { href: `${process.env.HOST}/api` },
           list: { href: `${process.env.HOST}/api/list` },
           request: { href: `${process.env.HOST}/api/request` },
+          delete: { href: `${process.env.HOST}/api/delete` },
         },
         maxPhotosPerRequest: +process.env.MAX_PHOTOS_PER_REQUEST,
       },

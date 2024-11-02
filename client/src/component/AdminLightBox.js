@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150, id }) {
+function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150, id, deleteUrl, sk }) {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
@@ -20,10 +20,20 @@ function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150
     setTouchEnd(0);
   }, [touchStart, touchEnd, minSwipeDistance, onSwipeLeft, onSwipeRight]);
 
+  const handleDelete = async (id, sk) => {
+    const imageId = id.replace('image#', '');
+    console.log('deleting', imageId, 'sk', sk);
+    const response = await fetch(deleteUrl + '/' + imageId + '/?sk=' + sk, {
+      method: 'DELETE',
+    });
+    console.log('delete response', response);
+    alert('Photo deleted');
+    handleTouchEnd();
+  };
   return (
     <div className="text-white">
-      {/* filename: {id} */}
-      {/* <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => console.log(id)}>Delete</button> */}
+      filename: {id}
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(id, sk)}>Delete</button>
       <img
         alt=""
         className="max-h-[90vh]"
@@ -38,7 +48,7 @@ function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150
   );
 }
 
-function Lightbox({ photo, onNext, onPrevious, onClose }) {
+function AdminLightBox({ photo, onNext, onPrevious, onClose, deleteUrl }) {
   useEffect(() => {
     if (!photo) return;
 
@@ -73,9 +83,11 @@ function Lightbox({ photo, onNext, onPrevious, onClose }) {
         onSwipeLeft={onNext}
         onSwipeRight={onPrevious}
         id={photo.id}
+        sk={photo.sk}
+        deleteUrl={deleteUrl}
       />
     </div>
   );
 }
 
-export default Lightbox;
+export default AdminLightBox;
