@@ -39,10 +39,14 @@ const calcUploadProgress = uploads => {
   return (processed / uploads.length) * 100;
 };
 
+const MAX_CAPTION_LENGTH = 200;
+
 function PhotoUpload({ url, maxPhotosPerRequest, onUpload }) {
   const [isOpen, setOpen] = useState(false);
   const [uploads, setUploads] = useState([]);
   const [error, setError] = useState();
+  const [caption, setCaption] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState(null);  // Add state for selected files
 
   useEffect(() => {
     if (!isOpen) return;
@@ -54,58 +58,84 @@ function PhotoUpload({ url, maxPhotosPerRequest, onUpload }) {
     };
   }, [isOpen]);
 
-  const handleUpload = async e => {
-    const newUploads = [...e.target.files].map(({ name }) => ({ name, status: 'pending' }));
+  const handleFileSelect = (e) => {
+    const files = [...e.target.files];
 
-    if (newUploads.length === 0) {
+    if (files.length === 0) {
       return;
     }
 
-    if (newUploads.length > maxPhotosPerRequest) {
+    if (files.length > maxPhotosPerRequest) {
       setError(`Sorry, you can only upload ${maxPhotosPerRequest} photos at a time.`);
       return;
     }
 
-    setUploads(newUploads);
+    setSelectedFiles(e.target.files);
+    setUploads(files.map(({ name }) => ({ name, status: 'pending' })));
+    setError(null);
 
-    const response = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify({
-        photos: JSON.stringify(newUploads.map(({ name }) => name)),
-      }),
-    }).then(response => response.json());
+  };
 
-    for (let i = 0; i < newUploads.length; i++) {
-      const request = response.urls[i];
+  const handleUpload = async () => {
+    if (!selectedFiles) return;
 
-      const formData = new FormData();
-      for (const key of Object.keys(request.fields)) {
-        formData.append(key, request.fields[key]);
-      }
-      formData.append('file', e.target.files[i], 'file');
-
-      setUploads(uploads => {
-        const newUploads = [...uploads];
-        newUploads[i] = { ...newUploads[i], status: 'uploading' };
-        return newUploads;
-      });
-
-      await fetch(request.url, {
+    try {
+      const newUploads = [...uploads];
+      const response = await fetch(url, {
         method: 'POST',
-        body: formData,
-      }).then(response => {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          photos: JSON.stringify(newUploads.map(({ name }) => name)),
+          caption: caption,
+        }),
+      }).then(response => response.json());
+
+      for (let i = 0; i < newUploads.length; i++) {
+        const request = response.urls[i];
+
+        const formData = new FormData();
+        formData.append('x-amz-meta-caption', caption);
+        for (const key of Object.keys(request.fields)) {
+          formData.append(key, request.fields[key]);
+        }
+        formData.append('file', selectedFiles[i], 'file');
+
         setUploads(uploads => {
           const newUploads = [...uploads];
-          newUploads[i] = { ...newUploads[i], status: response.ok ? 'uploaded' : 'failed' };
+          newUploads[i] = { ...newUploads[i], status: 'uploading' };
           return newUploads;
         });
-      });
-    }
 
-    await new Promise(r => setTimeout(r, 1000));
-    setOpen(false);
-    setUploads([]);
-    onUpload();
+        await fetch(request.url, {
+          method: 'POST',
+          body: formData,
+        }).then(response => {
+          setUploads(uploads => {
+            const newUploads = [...uploads];
+            newUploads[i] = { ...newUploads[i], status: response.ok ? 'uploaded' : 'failed' };
+            return newUploads;
+          });
+        });
+      }
+
+      await new Promise(r => setTimeout(r, 1000));
+      setOpen(false);
+      setUploads([]);
+      setCaption('');
+      setSelectedFiles(null);
+      onUpload();
+    } catch (error) {
+      setError('An error occurred while uploading photos.');
+    }
+  };
+
+  const handleCaptionChange = (e) => {
+    const newCaption = e.target.value;
+    if (newCaption.length <= MAX_CAPTION_LENGTH) {
+      setCaption(newCaption);
+    }
   };
 
   return (
@@ -149,7 +179,7 @@ function PhotoUpload({ url, maxPhotosPerRequest, onUpload }) {
                   {error}
                 </div>
               )}
-              {uploads.length > 0 ? (
+              {uploads.length > 0 && !selectedFiles ? (
                 <div className="mt-8">
                   <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                     <div
@@ -169,12 +199,42 @@ function PhotoUpload({ url, maxPhotosPerRequest, onUpload }) {
                   </ul>
                 </div>
               ) : (
-                <input
-                  type="file"
-                  onChange={handleUpload}
-                  accept=".jpg, .jpeg, image/jpg, image/jpeg"
-                  multiple
-                />
+                <div className="space-y-4">
+                  <input
+                    type="file"
+                    onChange={handleFileSelect}  // Changed from handleUpload to handleFileSelect
+                    accept=".jpg, .jpeg, image/jpg, image/jpeg"
+                    multiple
+                  />
+                  <div>
+                    <label
+                      htmlFor="caption"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Caption (optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="caption"
+                      value={caption}
+                      onChange={handleCaptionChange}
+                      maxLength={MAX_CAPTION_LENGTH}
+                      className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                      placeholder="Enter a caption for your photos"
+                    />
+                    <div className="mt-1 text-sm text-gray-500 flex justify-end">
+                      {caption.length}/{MAX_CAPTION_LENGTH}
+                    </div>
+                  </div>
+                  {selectedFiles && (  // Only show confirm button when files are selected
+                    <button
+                      onClick={handleUpload}
+                      className="w-full px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      Confirm Upload
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </div>

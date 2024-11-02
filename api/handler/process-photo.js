@@ -6,6 +6,7 @@ const {
   GetObjectCommand,
   DeleteObjectCommand,
   PutObjectCommand,
+  HeadObjectCommand,
 } = require('@aws-sdk/client-s3');
 const sharp = require('sharp');
 const path = require('path');
@@ -36,6 +37,25 @@ module.exports.handler = async event => {
   });
 
   const { key } = event.Records[0].s3.object;
+  const { name } = path.parse(key);
+
+  // Get the caption from S3 metadata BEFORE moving the file
+  const headObjectParams = {
+    Bucket: event.Records[0].s3.bucket.name,  // Use the source bucket
+    Key: key  // Use the original key
+  };
+
+  let caption = '';
+  try {
+    const headResult = await s3.send(new HeadObjectCommand(headObjectParams));
+    caption = headResult.Metadata?.caption || '';
+    console.log('Metadata from S3:', headResult.Metadata);
+  } catch (error) {
+    console.error('Error fetching S3 metadata:', error);
+  }
+
+  console.log('bucket name', event.Records[0].s3.bucket.name);
+  console.log('caption', caption);
 
   const object = await s3.send(
     new GetObjectCommand({
@@ -48,7 +68,6 @@ module.exports.handler = async event => {
   const photo = sharp(body);
   const metadata = await photo.metadata();
 
-  const { name } = path.parse(key);
   const { day, month, year } = getCurrentDate();
 
   const thumbnailKey = `${process.env.PHOTO_BUCKET_PREFIX}/thumbnail/${year}/${month}/${day}/${name}.webp`;
@@ -101,6 +120,7 @@ module.exports.handler = async event => {
 
   const processedAt = `${new Date().getTime()}`;
 
+  // Store in DynamoDB with the caption
   await db.send(
     new PutItemCommand({
       TableName: process.env.PHOTO_TABLE_NAME,
@@ -112,6 +132,7 @@ module.exports.handler = async event => {
         thumbnail: { S: `s3://${process.env.PHOTO_BUCKET_NAME}/${thumbnailKey}` },
         web: { S: `s3://${process.env.PHOTO_BUCKET_NAME}/${webKey}` },
         original: { S: `s3://${process.env.PHOTO_BUCKET_NAME}/${originalKey}` },
+        caption: { S: caption }
       },
     })
   );

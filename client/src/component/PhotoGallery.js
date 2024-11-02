@@ -25,14 +25,20 @@ function PhotoGallery({ initialUrl }) {
     <>
       <InfiniteScroll loadMore={doFetch} hasMore={!!nextUrl} loader={<LoadingBar />}>
         <div className="grid gap-1 grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8">
-          {photos.map((photo, idx) => (
-            <img
-              key={photo.id}
-              className="flex object-cover w-full h-full cursor-pointer"
-              alt=""
-              src={photo.thumbnail}
-              onClick={() => setSelected(idx)}
-            />
+        {photos.map((photo, idx) => (
+            <div key={photo.id} className="flex flex-col">
+              <img
+                className="flex object-cover w-full h-full cursor-pointer"
+                alt={photo.caption || ""}
+                src={photo.thumbnail}
+                onClick={() => setSelected(idx)}
+              />
+              {photo.caption && (
+                <p className="px-2 py-1 text-sm text-gray-600 truncate">
+                  {photo.caption}
+                </p>
+              )}
+            </div>
           ))}
         </div>
       </InfiniteScroll>

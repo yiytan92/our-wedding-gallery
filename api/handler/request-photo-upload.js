@@ -4,8 +4,10 @@ const { S3Client } = require('@aws-sdk/client-s3');
 const { createPresignedPost } = require('@aws-sdk/s3-presigned-post');
 
 module.exports.handler = async event => {
-  const photos = JSON.parse(JSON.parse(event.body)?.photos) || [];
-
+  const body = JSON.parse(event.body);
+  const photos = JSON.parse(body?.photos) || [];
+  const caption = body?.caption || '';
+  console.log('>>> caption', caption);
   if (photos.length < 1 && photos.length > process.env.MAX_PHOTOS_PER_REQUEST) {
     return {
       statusCode: 400,
@@ -27,6 +29,12 @@ module.exports.handler = async event => {
         Bucket: process.env.UPLOAD_BUCKET_NAME,
         Key: `${Math.random().toString(36).substring(2)}.${name.split('.').pop()}`,
         Expires: photos.length * 300,
+        Conditions: [
+          ['starts-with', '$x-amz-meta-caption', ''],
+        ],
+        Fields: {
+          'x-amz-meta-caption': caption,
+        },
       })
     )
   );
@@ -44,6 +52,7 @@ module.exports.handler = async event => {
           bootstrap: { href: `${process.env.HOST}/api` },
         },
         urls,
+        caption,
       },
       null,
       2

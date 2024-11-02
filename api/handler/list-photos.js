@@ -52,6 +52,7 @@ module.exports.handler = async event => {
           thumbnail: toPublicReadUrl(record.thumbnail.S),
           web: toPublicReadUrl(record.web.S),
           original: toPublicReadUrl(record.original.S),
+          caption: record.caption?.S || ''  // Add caption to response
         })),
       },
       null,

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150, id }) {
+function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150, id, caption }) {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
@@ -22,8 +22,11 @@ function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150
 
   return (
     <div className="text-white">
-      {/* filename: {id} */}
-      {/* <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => console.log(id)}>Delete</button> */}
+      {caption && (
+        <p className="text-white text-lg mt-4 max-w-[90vw] text-center">
+          {caption}
+        </p>
+      )}
       <img
         alt=""
         className="max-h-[90vh]"
@@ -73,6 +76,7 @@ function Lightbox({ photo, onNext, onPrevious, onClose }) {
         onSwipeLeft={onNext}
         onSwipeRight={onPrevious}
         id={photo.id}
+        caption={photo.caption}
       />
     </div>
   );
