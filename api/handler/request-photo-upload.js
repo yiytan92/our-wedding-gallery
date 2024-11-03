@@ -8,6 +8,7 @@ module.exports.handler = async event => {
   const photos = JSON.parse(body?.photos) || [];
   const caption = body?.caption || '';
   console.log('>>> caption', caption);
+
   if (photos.length < 1 && photos.length > process.env.MAX_PHOTOS_PER_REQUEST) {
     return {
       statusCode: 400,
@@ -20,29 +21,43 @@ module.exports.handler = async event => {
   }
 
   const s3 = new S3Client({
+    region: process.env.AWS_REGION || 'ap-southeast-1',
     endpoint: process.env.S3_ENDPOINT || undefined,
   });
 
   const urls = await Promise.all(
-    photos.map(name =>
-      createPresignedPost(s3, {
+    photos.map(name => {
+      const fileKey = `${Math.random().toString(36).substring(2)}.${name.split('.').pop()}`;
+
+      return createPresignedPost(s3, {
         Bucket: process.env.UPLOAD_BUCKET_NAME,
-        Key: `${Math.random().toString(36).substring(2)}.${name.split('.').pop()}`,
+        Key: fileKey,
         Expires: photos.length * 300,
         Conditions: [
-          ['starts-with', '$x-amz-meta-caption', ''],
+          ['content-length-range', 0, 10485760], // Up to 10MB
+          ['starts-with', '$Content-Type', 'image/'],
+          ['eq', '$bucket', process.env.UPLOAD_BUCKET_NAME],
+          ['starts-with', '$key', ''],
         ],
         Fields: {
+          'Content-Type': 'image/jpeg',
           'x-amz-meta-caption': caption,
+          key: fileKey,
+          bucket: process.env.UPLOAD_BUCKET_NAME,
         },
-      })
-    )
+      });
+    })
   );
+
+  console.log('Generated presigned URLs:', JSON.stringify(urls, null, 2));
 
   return {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/hal+json',
+      'Access-Control-Allow-Origin': '*', // Be more specific in production
+      'Access-Control-Allow-Methods': 'POST',
+      'Access-Control-Allow-Headers': 'Content-Type'
     },
     body: JSON.stringify(
       {
