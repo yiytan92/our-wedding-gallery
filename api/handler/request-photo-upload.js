@@ -34,16 +34,10 @@ module.exports.handler = async event => {
         Key: fileKey,
         Expires: photos.length * 300,
         Conditions: [
-          ['content-length-range', 0, 10485760], // Up to 10MB
-          ['starts-with', '$Content-Type', 'image/'],
-          ['eq', '$bucket', process.env.UPLOAD_BUCKET_NAME],
-          ['starts-with', '$key', ''],
+          ['starts-with', '$x-amz-meta-caption', ''],
         ],
         Fields: {
-          'Content-Type': 'image/jpeg',
           'x-amz-meta-caption': caption,
-          key: fileKey,
-          bucket: process.env.UPLOAD_BUCKET_NAME,
         },
       });
     })

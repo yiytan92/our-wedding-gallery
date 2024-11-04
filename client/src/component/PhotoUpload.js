@@ -92,14 +92,18 @@ function PhotoUpload({ url, maxPhotosPerRequest, onUpload }) {
         }),
       }).then(response => response.json());
 
+      console.log('Received presigned URLs:', response);
+
       for (let i = 0; i < newUploads.length; i++) {
         const request = response.urls[i];
 
         const formData = new FormData();
-        formData.append('x-amz-meta-caption', caption);
-        for (const key of Object.keys(request.fields)) {
+        // Important: Add fields in the exact order they were signed
+        // First add all the presigned fields
+        Object.keys(request.fields).sort().forEach(key => {
           formData.append(key, request.fields[key]);
-        }
+          console.log(`Adding field: ${key}=${request.fields[key]}`);
+        });
         formData.append('file', selectedFiles[i], 'file');
 
         setUploads(uploads => {
