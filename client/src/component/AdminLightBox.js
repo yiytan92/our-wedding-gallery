@@ -23,7 +23,8 @@ function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150
   const handleDelete = async (id, sk) => {
     const imageId = id.replace('image#', '');
     console.log('deleting', imageId, 'sk', sk);
-    const response = await fetch(deleteUrl + '/' + imageId + '/?sk=' + sk, {
+    const url = `/api/delete/${encodeURIComponent(imageId)}/?sk=${encodeURIComponent(sk)}`;
+    const response = await fetch(url, {
       method: 'DELETE',
     });
     console.log('delete response', response);
