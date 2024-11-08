@@ -23,9 +23,10 @@ function PhotoGallery({ initialUrl }) {
 
   return (
     <>
+      <p className="gallery-instructions">Tap on any photo to enlarge it</p>
       <InfiniteScroll loadMore={doFetch} hasMore={!!nextUrl} loader={<LoadingBar />}>
         <div className="grid gap-1 grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8">
-        {photos.map((photo, idx) => (
+          {photos.map((photo, idx) => (
             <div key={photo.id} className="flex flex-col">
               <img
                 className="flex object-cover w-full h-full cursor-pointer"
@@ -34,7 +35,7 @@ function PhotoGallery({ initialUrl }) {
                 onClick={() => setSelected(idx)}
               />
               {photo.caption && (
-                <p className="px-2 py-1 text-sm text-gray-600 truncate">
+                <p className="px-2 py-1 text-sm text-gray-600 line-clamp-2">
                   {photo.caption}
                 </p>
               )}

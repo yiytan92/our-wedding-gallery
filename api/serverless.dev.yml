@@ -24,15 +24,15 @@ custom:
     Application: Gallery
     Env: ${self:provider.stage}
 
-  uploadBucketName: 'upload-bucket'
-  photoBucketName: 'photo-bucket'
-  photoBucketPrefix: 'photo'
-  photoBucketPublicReadUrl: 'http://localhost:4569/photo-bucket{path}'
-  photoTableName: 'photo-table'
-  host: 'http://localhost:3000'
-  dynamoDBEndpoint: 'http://localhost:8123'
-  s3Endpoint: 'http://localhost:4569'
-  maxPhotosPerRequest: 50
+  uploadBucketName: "upload-bucket"
+  photoBucketName: "photo-bucket"
+  photoBucketPrefix: "photo"
+  photoBucketPublicReadUrl: "http://localhost:4569/photo-bucket{path}"
+  photoTableName: "photo-table"
+  host: "http://localhost:3000"
+  dynamoDBEndpoint: "http://localhost:8123"
+  s3Endpoint: "http://localhost:4569"
+  maxPhotosPerRequest: 3
 
 resources:
   Resources:
