@@ -23,8 +23,8 @@ function PhotoGallery({ initialUrl }) {
 
   return (
     <>
-      <p className="gallery-instructions">Tap on any photo to enlarge it</p>
       <InfiniteScroll loadMore={doFetch} hasMore={!!nextUrl} loader={<LoadingBar />}>
+        <p className="gallery-instructions">Tap on any photo to enlarge it</p>
         <div className="grid gap-1 grid-cols-2 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8">
           {photos.map((photo, idx) => (
             <div key={photo.id} className="flex flex-col">

@@ -44,6 +44,7 @@ function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150
       console.log('delete response', data);
       alert('Photo deleted successfully');
       handleTouchEnd();
+      window.location.reload();
     } catch (error) {
       console.error('Delete failed:', error);
       alert('Failed to delete photo: ' + error.message);

@@ -9,6 +9,7 @@ import Countdown from './component/Countdown';
 import banner from './images/banner.png';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Admin from './component/Admin';
+import SeatingArrangement from './component/Seating';
 
 function App({ bootstrapUrl }) {
   const [bootstrap, setBootstrap] = useState(undefined);
@@ -43,6 +44,7 @@ function App({ bootstrapUrl }) {
             <Route path="/venue" element={<Venue />} />
             <Route path="/invitation" element={<InvitationCard />} />
             <Route path="/admin" element={<Admin bootstrapUrl={bootstrapUrl} />} />
+            <Route path="/seating" element={<SeatingArrangement />}></Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

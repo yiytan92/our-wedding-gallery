@@ -41,6 +41,44 @@ const calcUploadProgress = uploads => {
 
 const MAX_CAPTION_LENGTH = 200;
 
+const BLOCKED_WORDS = [
+  "ass",
+  "bastard",
+  "bitch",
+  "bollocks",
+  "crap",
+  "cunt",
+  "damn",
+  "dick",
+  "fag",
+  "fuck",
+  "fucking",
+  "motherfucker",
+  "nigga",
+  "nigger",
+  "piss",
+  "prick",
+  "shit",
+  "shitty",
+  "slut",
+  "twat",
+  "wanker"
+];
+
+const containsVulgarity = (text) => {
+  const words = text.toLowerCase().split(/\s+/);
+  return words.some(word =>
+    BLOCKED_WORDS.some(blocked =>
+      word.includes(blocked) ||
+      // Check for common letter substitutions
+      word.replace(/[1!i]/g, 'i')
+        .replace(/[@a4]/g, 'a')
+        .replace(/[0o]/g, 'o')
+        .includes(blocked)
+    )
+  );
+};
+
 function PhotoUpload({ url, maxPhotosPerRequest, onUpload }) {
   const [isOpen, setOpen] = useState(false);
   const [uploads, setUploads] = useState([]);
@@ -138,6 +176,11 @@ function PhotoUpload({ url, maxPhotosPerRequest, onUpload }) {
   const handleCaptionChange = (e) => {
     const newCaption = e.target.value;
     if (newCaption.length <= MAX_CAPTION_LENGTH) {
+      if (containsVulgarity(newCaption)) {
+        setError('Please keep the caption family-friendly!');
+        return;
+      }
+      setError(null);
       setCaption(newCaption);
     }
   };

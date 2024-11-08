@@ -83,7 +83,6 @@
   bottom: 0;
   background-color: #FFFDF0; /* Subtle, warm background */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
-  padding: 15px 0;
   width: 100%;
   z-index: 1000;
 }
@@ -215,7 +214,6 @@
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   letter-spacing: 0.05em;
   font-weight: 300;
-  opacity: 0.8;
   animation: fadeIn 0.8s ease-out;
 }
 
