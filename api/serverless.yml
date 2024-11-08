@@ -64,8 +64,8 @@ functions:
       DYNAMODB_ENDPOINT: ${self:custom.dynamoDBEndpoint, null}
     events:
       - httpApi:
-          path: /api/delete/{id}
-          method: delete
+          path: /api/delete
+          method: post
 
   process-photo:
     handler: handler/process-photo.handler

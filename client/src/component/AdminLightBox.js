@@ -21,15 +21,33 @@ function Photo({ src, onClick, onSwipeLeft, onSwipeRight, minSwipeDistance = 150
   }, [touchStart, touchEnd, minSwipeDistance, onSwipeLeft, onSwipeRight]);
 
   const handleDelete = async (id, sk) => {
-    const imageId = id.replace('image#', '');
-    console.log('deleting', imageId, 'sk', sk);
-    const url = `/api/delete/${encodeURIComponent(imageId)}/?sk=${encodeURIComponent(sk)}`;
-    const response = await fetch(url, {
-      method: 'DELETE',
-    });
-    console.log('delete response', response);
-    alert('Photo deleted');
-    handleTouchEnd();
+    try {
+      const pk = id.replace('image#', '');
+      console.log('deleting', pk, 'sk', sk);
+      const url = '/api/delete';
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pk, sk })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Response:', errorText);
+        throw new Error(`Delete failed with status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('delete response', data);
+      alert('Photo deleted successfully');
+      handleTouchEnd();
+    } catch (error) {
+      console.error('Delete failed:', error);
+      alert('Failed to delete photo: ' + error.message);
+    }
   };
   return (
     <div className="text-white">
